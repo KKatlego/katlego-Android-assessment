@@ -36,8 +36,7 @@ class QuestionCardView @JvmOverloads constructor(
     var selection: Int? = null
         set(value) {
             field = value
-            value ?: return
-            binding.answers.children.elementAt(value).isSelected = true
+            setSelection()
         }
 
     init {
@@ -49,19 +48,21 @@ class QuestionCardView @JvmOverloads constructor(
     private fun addAnswer(title: String) {
         val answerView = AnswerCardView(context)
         answerView.title = title
-        answerView.setOnClickListener { onAnswerClick(it) }
+        answerView.setOnClickListener { onAnswerClick(answerView) }
         binding.answers.addView(answerView)
     }
 
     private fun onAnswerClick(view: View) {
-        if (!view.isSelected) {
-            binding.answers.children.filter { it.isSelected }.forEach {
-                it.isSelected = false
+        binding.answers.children.forEachIndexed { index, child ->
+            if (child == view) {
+                selection = index
             }
         }
     }
 
     private fun setSelection() {
-
+        binding.answers.children.forEachIndexed { index, view ->
+            view.isSelected = (index == selection)
+        }
     }
 }

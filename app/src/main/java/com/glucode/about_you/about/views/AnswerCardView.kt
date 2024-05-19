@@ -16,10 +16,13 @@ class AnswerCardView @JvmOverloads constructor(
 ) : CardView(context, attrs, defStyleAttr) {
     private val binding: ViewAnswerCardBinding =
         ViewAnswerCardBinding.inflate(LayoutInflater.from(context), this)
+
     @ColorInt
     private val selectedCardBackgroundColor: Int
     @ColorInt
     private val selectedTextColor: Int
+    @ColorInt
+    private val deselectedCardBackgroundColor: Int
     @ColorInt
     private val deselectedTextColor: Int
 
@@ -32,21 +35,25 @@ class AnswerCardView @JvmOverloads constructor(
     init {
         val whiteColour = ContextCompat.getColor(context, R.color.white)
         val blackColour = ContextCompat.getColor(context, R.color.black)
-        selectedCardBackgroundColor = blackColour
+        selectedCardBackgroundColor = whiteColour
         selectedTextColor = blackColour
+        deselectedCardBackgroundColor = blackColour
         deselectedTextColor = whiteColour
         radius = resources.getDimension(R.dimen.corner_radius_normal)
         elevation = resources.getDimension(R.dimen.elevation_normal)
-        setCardBackgroundColor(null)
+        setCardBackgroundColor(deselectedCardBackgroundColor)
+        binding.title.setTextColor(deselectedTextColor)
     }
 
     override fun setSelected(selected: Boolean) {
         super.setSelected(selected)
         if (selected) {
             setCardBackgroundColor(selectedCardBackgroundColor)
+            binding.title.setBackgroundColor(selectedCardBackgroundColor)
             binding.title.setTextColor(selectedTextColor)
         } else {
-            setCardBackgroundColor(null)
+            setCardBackgroundColor(deselectedCardBackgroundColor)
+            binding.title.setBackgroundColor(deselectedCardBackgroundColor)
             binding.title.setTextColor(deselectedTextColor)
         }
     }
