@@ -46,6 +46,7 @@ class AnswerCardView @JvmOverloads constructor(
     }
 
     override fun setSelected(selected: Boolean) {
+        // Set text and background colour
         super.setSelected(selected)
         if (selected) {
             setCardBackgroundColor(selectedCardBackgroundColor)

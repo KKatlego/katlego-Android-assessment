@@ -61,6 +61,7 @@ class QuestionCardView @JvmOverloads constructor(
     }
 
     private fun setSelection() {
+        // Set selection
         binding.answers.children.forEachIndexed { index, view ->
             view.isSelected = (index == selection)
         }
