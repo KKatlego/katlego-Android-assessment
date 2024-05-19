@@ -12,6 +12,7 @@ import com.glucode.about_you.mockdata.MockData
 
 class EngineersFragment : Fragment() {
     private lateinit var binding: FragmentEngineersBinding
+    private lateinit var engineers: List<Engineer>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -20,7 +21,9 @@ class EngineersFragment : Fragment() {
     ): View {
         binding = FragmentEngineersBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
-        setUpEngineersList(MockData.engineers)
+
+        engineers = MockData.engineers
+        setUpEngineersList(engineers)
         return binding.root
     }
 
@@ -30,10 +33,34 @@ class EngineersFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.action_years) {
-            return true
+        return when (item.itemId) {
+            // sort by years
+            R.id.action_years -> {
+                engineers = engineers.sortedBy { it.quickStats.years }
+                updateEngineersList()
+                true
+            }
+
+            // sort by coffees
+            R.id.action_coffees -> {
+                engineers = engineers.sortedBy { it.quickStats.coffees }
+                updateEngineersList()
+                true
+            }
+
+            // sort by bugs
+            R.id.action_bugs -> {
+                engineers = engineers.sortedBy { it.quickStats.bugs }
+                setUpEngineersList(engineers)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
+
+    }
+
+    private fun updateEngineersList() {
+        setUpEngineersList(engineers)
     }
 
     private fun setUpEngineersList(engineers: List<Engineer>) {
