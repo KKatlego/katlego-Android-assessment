@@ -51,7 +51,7 @@ class EngineersFragment : Fragment() {
             // sort by bugs
             R.id.action_bugs -> {
                 engineers = engineers.sortedBy { it.quickStats.bugs }
-                setUpEngineersList(engineers)
+                updateEngineersList()
                 true
             }
             else -> super.onOptionsItemSelected(item)
